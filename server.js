@@ -52,7 +52,7 @@ app.get('/', function(req, res) {
 // ---------------------------------------------------------
 // get an instance of the router for api routes
 // ---------------------------------------------------------
-var apiRoutes = express.Router();
+/*var apiRoutes = express.Router();
 
 // ---------------------------------------------------------
 // authentication (no middleware necessary since this isnt authenticated)
@@ -147,7 +147,7 @@ apiRoutes.get('/check', function(req, res) {
 });
 
 app.use('/api', apiRoutes);
-
+*/
 // =================================================================
 // start the server ================================================
 // =================================================================
