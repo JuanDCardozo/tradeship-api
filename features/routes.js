@@ -2,7 +2,7 @@
 module.exports = function(app, passport) {
 
 
-// normal routes ===============================================================
+// normal routes =====================================================
 
 	// show the home page (will also have our login links)
 	app.get('/', function(req, res) {
@@ -20,9 +20,12 @@ module.exports = function(app, passport) {
 		res.redirect('/');
 });
 
-require('./user/user-auth')(app,passport);
-require('./user/user-addAccounts')(app,passport);
-require('./user/user-unlinkAccounts')(app,passport);
+// features routes ==================================================
+// User features: Authenticate, add, unlink and edit account
+require('./user/user-routes')(app, passport);
+
+// Product features: Connect aws S3 store images and make product post
+require('./product/product-routes')(app);
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
