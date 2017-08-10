@@ -11,7 +11,7 @@ var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
 var session = require('express-session');
 var configDB = require('./config/database');
-
+var cors = require('cors');
 // configuration ===============================================================
 mongoose.connect(configDB.database); // connect to our database
 
@@ -38,13 +38,8 @@ require('./config/passport/routes-passport')(passport); // pass passport for con
 require('./features/routes')(app, passport); // load our routes and pass in our app and fully configured passport
 
 //Setting Headers ===================================================
+app.use(cors());
 
-app.all("/*", function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With");
-    res.header("Access-Control-Allow-Methods", "GET, PUT, POST");
-    return next();
-});
 // launch ======================================================================
 app.listen(port);
 console.log('The magic happens on port ' + port);
