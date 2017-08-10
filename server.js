@@ -33,12 +33,12 @@ require('./config/passport/routes-passport')(passport); // pass passport for con
 	app.use(passport.session()); // persistent login sessions
 	app.use(flash()); // use connect-flash for flash messages stored in session
 
-
+	//Setting Headers ===================================================
+	app.use(cors());
+	app.options('*', cors());
 // routes ======================================================================
 require('./features/routes')(app, passport); // load our routes and pass in our app and fully configured passport
 
-//Setting Headers ===================================================
-app.use(cors());
 
 // launch ======================================================================
 app.listen(port);
