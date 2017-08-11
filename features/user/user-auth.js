@@ -27,7 +27,7 @@ function generateAccessToken(userId) {
 function generateUserToken(req, res) {
     const accessToken = generateAccessToken(req.user.facebook.id);
 		res.writeHead(302, {
-                'Location': 'http://localhost:4200/home/#token:'+accessToken
+                'Location': 'http://localhost:4200/home/?accessToken='+accessToken
             });
 		res.end();
 }
