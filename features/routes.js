@@ -9,16 +9,23 @@ module.exports = function(app, passport) {
 		res.send('Welcome to Tradeship-api!');
 	});
 
-	// PROFILE SECTION =========================
-	app.get('/profile', isLoggedIn, function(req, res) {
-		res.json({user : req.user });
-	});
+	// // PROFILE SECTION =========================
+	// app.get('/profile', isLoggedIn, function(req, res) {
+	// 	console.log(req.user);
+	//
+	// });
 
-	// LOGOUT ==============================
-	app.get('/logout', function(req, res) {
-		req.logout();
-		res.redirect('/');
-});
+	app.post('/profile', passport.authenticate('jwt', { session: false}),
+	    function(req, res) {
+	        res.send(req.user.facebook.name);
+	    }
+	);
+	
+// 	// LOGOUT ==============================
+// 	app.get('/logout', function(req, res) {
+// 		req.logout();
+// 		res.redirect('/');
+// });
 
 // features routes ==================================================
 // User features: Authenticate, add, unlink and edit account
@@ -27,11 +34,11 @@ require('./user/user-routes')(app, passport);
 // Product features: Connect aws S3 store images and make product post
 require('./product/product-routes')(app);
 
-// route middleware to ensure user is logged in
-function isLoggedIn(req, res, next) {
-	if (req.isAuthenticated())
-		return next();
-
-	res.redirect('/');
-}
+// // route middleware to ensure user is logged in
+// function isLoggedIn(req, res, next) {
+// 	if (req.isAuthenticated())
+// 		return next();
+//
+// 	res.redirect('/');
+// }
 }

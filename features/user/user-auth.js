@@ -1,7 +1,36 @@
+const jwt = require('jsonwebtoken');
+const configAuth = require('../../config/passport/auth-passport');
+
 module.exports = function(app, passport){
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
 // =============================================================================
+
+// Generate an Access Token for the given User ID
+function generateAccessToken(userId) {
+    const expiresIn = '1 hour';
+    const audience = configAuth.token.audience;
+    const issuer = configAuth.token.issuer;
+    const secret = configAuth.token.secret;
+
+    const token = jwt.sign({}, secret, {
+        expiresIn: expiresIn,
+        audience: audience,
+        issuer: issuer,
+        subject: userId.toString()
+    });
+
+    return token;
+}
+
+// Generate the Token for the user authenticated in the request
+function generateUserToken(req, res) {
+    const accessToken = generateAccessToken(req.user.facebook.id);
+		res.writeHead(302, {
+                'Location': 'http://localhost:4200/home/#token:'+accessToken
+            });
+		res.end();
+}
 
 	// locally --------------------------------
 		// LOGIN ===============================
@@ -11,11 +40,8 @@ module.exports = function(app, passport){
 		});
 
 		// process the login form
-		app.post('/login', passport.authenticate('local-login', {
-			successRedirect : '/profile', // redirect to the secure profile section
-			failureRedirect : '/login', // redirect back to the signup page if there is an error
-			failureFlash : true // allow flash messages
-		}));
+		app.post('/login', passport.authenticate('local-login', { session: false }),
+generateUserToken);
 
 		// SIGNUP =================================
 		// show the signup form
@@ -25,34 +51,27 @@ module.exports = function(app, passport){
 		});
 
 		// process the signup form
-		app.post('/signup', passport.authenticate('local-signup', {
-			successRedirect : '/profile', // redirect to the secure profile section
-			failureRedirect : '/signup', // redirect back to the signup page if there is an error
-			failureFlash : true // allow flash messages
-		}));
-
+		app.post('/signup',
+		passport.authenticate('signup', { session: false }),
+generateUserToken);
 	// facebook -------------------------------
 
 		// send to facebook to do the authentication
-		app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+		app.get('/auth/facebook', passport.authenticate('facebook', {session: false, scope : 'email' }));
 
 		// handle the callback after facebook has authenticated the user
 		app.get('/auth/facebook/callback',
-			passport.authenticate('facebook', {
-				successRedirect : '/profile',
-				failureRedirect : '/'
-			}));
+		passport.authenticate('facebook', { session: false }),
+generateUserToken);
 
 
 	// google ---------------------------------
 
 		// send to google to do the authentication
-		app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+		app.get('/auth/google', passport.authenticate('google', { session: false, scope : ['profile', 'email'] }));
 
 		// the callback after google has authenticated the user
 		app.get('/auth/google/callback',
-			passport.authenticate('google', {
-				successRedirect : '/profile',
-				failureRedirect : '/'
-}));
+		passport.authenticate('google', { session: false }),
+generateUserToken);
 }

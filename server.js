@@ -25,17 +25,18 @@ require('./config/passport/routes-passport')(passport); // pass passport for con
 	app.use(bodyParser.urlencoded({ extended: false }));
 	app.use(bodyParser.json());
 
-	app.use(session({
-	    secret: 'tradeship-api' // session secret
-	}));
+	// app.use(session({
+	//     secret: 'tradeship-api' // session secret
+	// }));
 	// required for passport
 	app.use(passport.initialize());
-	app.use(passport.session()); // persistent login sessions
-	app.use(flash()); // use connect-flash for flash messages stored in session
+	// app.use(passport.session()); // persistent login sessions
+	// app.use(flash()); // use connect-flash for flash messages stored in session
 
 	//Setting Headers ===================================================
 	app.use(cors());
 	app.options('*', cors());
+
 // routes ======================================================================
 require('./features/routes')(app, passport); // load our routes and pass in our app and fully configured passport
 
