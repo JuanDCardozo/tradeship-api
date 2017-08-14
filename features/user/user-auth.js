@@ -25,7 +25,7 @@ function generateAccessToken(userId) {
 
 // Generate the Token for the user authenticated in the request
 function generateUserToken(req, res) {
-    const accessToken = generateAccessToken(req.user.facebook.id);
+    const accessToken = generateAccessToken(req.user._id);
 		res.writeHead(302, {
                 'Location': 'http://localhost:4200/home/?accessToken='+accessToken
             });

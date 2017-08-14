@@ -10,7 +10,7 @@ module.exports = {
 	'googleAuth' : {
 		'clientID' 		: '531444660709-a73b4nritm0116oqbpf7asup2adu8jrs.apps.googleusercontent.com',
 		'clientSecret' 	: 'GqBPIHKdlxMNu3vwd643eNjQ',
-		'callbackURL' 	: 'http://tradeship-api.herokuapp.com/auth/google/callback'
+		'callbackURL' 	: 'http://localhost:8080/auth/google/callback'
 	},
 
 	'token': {
