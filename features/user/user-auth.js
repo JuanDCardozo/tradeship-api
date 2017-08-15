@@ -52,7 +52,7 @@ generateUserToken);
 
 		// process the signup form
 		app.post('/signup',
-		passport.authenticate('signup', { session: false }),
+		passport.authenticate('local-signup', { session: false }),
 generateUserToken);
 	// facebook -------------------------------
 
