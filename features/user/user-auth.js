@@ -25,6 +25,7 @@ function generateAccessToken(userId) {
 
 // Generate the Token for the user authenticated in the request
 function generateUserToken(req, res) {
+  console.log('inside generate UserToken');
     const accessToken = generateAccessToken(req.user._id);
 		res.writeHead(302, {
                 'Location': 'http://localhost:4200/home/?accessToken='+accessToken
@@ -52,7 +53,7 @@ generateUserToken);
 
 		// process the signup form
 		app.post('/signup',
-		passport.authenticate('signup', { session: false }),
+		passport.authenticate('local-signup', { session: false }),
 generateUserToken);
 	// facebook -------------------------------
 
