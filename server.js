@@ -40,6 +40,7 @@ require('./config/passport/routes-passport')(passport); // pass passport for con
 	// app.use(passport.session()); // persistent login sessions
 	// app.use(flash()); // use connect-flash for flash messages stored in session
 
+<<<<<<< HEAD
 // 	var corsOptions = {
 //   "origin": "*",
 //   "allowedHeaders":'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With',
@@ -52,6 +53,21 @@ require('./config/passport/routes-passport')(passport); // pass passport for con
 // 	//Setting Headers ===================================================
 // 	app.use(cors(corsOptions));
 	//app.options('*', cors(corsOptions));
+=======
+	//Setting Headers ===================================================
+	app.use(cors(corsOptions));
+	// app.options('*', cors(corsOptions));
+
+	var corsOptions = {
+		"origin": "*",
+		"allowedHeaders":['Content-Type', 'Authorization'],
+		"methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+		"preflightContinue": false,
+		"allowedHeaders": 'content-type',
+		"credentials":true,
+}
+
+>>>>>>> 00f5203b3b83297c8d766da5ea81056226cb9dbe
 
 // routes ======================================================================
 require('./features/routes')(app, passport); // load our routes and pass in our app and fully configured passport
