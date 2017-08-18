@@ -26,11 +26,17 @@ function generateAccessToken(userId) {
 // Generate the Token for the user authenticated in the request
 function generateUserToken(req, res) {
   console.log('inside generate UserToken');
-    const accessToken = generateAccessToken(req.user._id);
-		res.writeHead(302, {
-                'Location': 'http://localhost:4200/home/?accessToken='+accessToken
-            });
-		res.end();
+  console.log(req.user);
+    //const accessToken = generateAccessToken(req.user._id);
+
+    res.redirect(302,'http://localhost:4200/home/?accessToken=');
+		// res.writeHead(302, {
+    //   'Access-Control-Allow-Origin':'*',
+    //   'Access-Control-Allow-Headers':'Content-Type,Origin, X-Requested-With, Content-Type, Accept, Authorization, WWW-Authenticate, X-BLURR-DEBUG',
+    //   'Access-Control-Request-Method':	'POST,GET,OPTIONS',
+    //             'Location': 'http://localhost:4200/home/?accessToken='+accessToken
+    //         });
+		// res.end();
 }
 
 	// locally --------------------------------
@@ -46,15 +52,14 @@ generateUserToken);
 
 		// SIGNUP =================================
 		// show the signup form
-		app.get('/signup', function(req, res) {
-			res.json({'HELLO':'WORLD IM JUAN'});
-
-		});
+		app.get('/signup', generateUserToken);
 
 		// process the signup form
 		app.post('/signup',
-		passport.authenticate('local-signup', { session: false }),
-generateUserToken);
+		passport.authenticate('local-signup', { session: false }),function(req,res){
+      console.log(req.user);
+      res.redirect("/signup");
+    });
 	// facebook -------------------------------
 
 		// send to facebook to do the authentication
