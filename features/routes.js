@@ -1,44 +1,43 @@
+// ====================================================================
+// user-addAccounts.js handles all the registration and user authentification.
+// if the credentials are in the database then return jwt token. If
+// it is not it creates a new user and returns a token.
+// ====================================================================
 
 module.exports = function(app, passport) {
 
+  // ==================================================================
+  // HOME ROUTE =======================================================
+  // ==================================================================
 
-// normal routes =====================================================
+  // Show Message and data about how to use tradeshi-api
+  app.get('/', function(req, res) {
+    var message = 'Welcome to Tradeship-api!';
+    res.send(message);
+  });
 
-	// show the home page (will also have our login links)
-	app.get('/', function(req, res) {
-		res.send('Welcome to Tradeship-api!');
-	});
+  // ==================================================================
+  // FEATURE ROUTES ===================================================
+  // ==================================================================
 
-	// // PROFILE SECTION =========================
-	// app.get('/profile', isLoggedIn, function(req, res) {
-	// 	console.log(req.user);
-	//
-	// });
+  // User features: Authenticate, add, unlink and edit account
+  require('./user/user-routes')(app, passport);
 
-	app.post('/profile', passport.authenticate('jwt', { session: false}),
-	    function(req, res) {
-	        res.send(req.user.facebook.name);
-	    }
-	);
-	
-// 	// LOGOUT ==============================
-// 	app.get('/logout', function(req, res) {
-// 		req.logout();
-// 		res.redirect('/');
-// });
+  // Product features: Connect aws S3 store images and make product post
+  require('./product/product-routes')(app);
 
-// features routes ==================================================
-// User features: Authenticate, add, unlink and edit account
-require('./user/user-routes')(app, passport);
-
-// Product features: Connect aws S3 store images and make product post
-require('./product/product-routes')(app);
-
-// // route middleware to ensure user is logged in
-// function isLoggedIn(req, res, next) {
-// 	if (req.isAuthenticated())
-// 		return next();
-//
-// 	res.redirect('/');
-// }
+  // // Trade features:
+  // require('./trade/trade-routes')(app);
+  //
+  // // Ship features:
+  // require('./ship/ship-routes')(app);
+  //
+  // // Match features:
+  // require('./match/match-routes')(app);
+  //
+  // // Feed features:
+  // require('./feed/feed-routes')(app);
+  //
+  // // Barter features:
+  //   require('./barter/barter-routes')(app);
 }

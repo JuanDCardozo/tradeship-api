@@ -1,7 +1,7 @@
 // ==================================================================
-// user-auth.js handles all the first user authentifications
-//
-//
+// user-auth.js handles all the registration and user authentification.
+// if the credentials are in the database then return jwt token. If
+// it is not it creates a new user and returns a token.
 // ==================================================================
 
 const jwt = require('jsonwebtoken');
