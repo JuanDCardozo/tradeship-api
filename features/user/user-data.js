@@ -7,16 +7,24 @@
 module.exports = function(app, passport) {
 
   // Returns the users profile data like name, last name, reviews, etc
-  app.post('/profile', passport.authenticate('jwt', {
+  // app.get('/profile', passport.authenticate('jwt', {
+  //     session: false
+  //   }),
+  //   function(req, res) {
+  //     console.log(req.user)
+  //     res.send(req.user);
+  //   }
+  // );
+
+  app.get('/profile', passport.authenticate('jwt', {
       session: false
     }),
     function(req, res) {
-      console.log(req.user)
-      res.send(req.user);
+      res.send('It Worked!');
     }
   );
 
-  app.post('/profile/update', function(req, res) {
+  app.post('/profile-update', function(req, res) {
     res.send('/profile/update is not yet implemented');
   });
 

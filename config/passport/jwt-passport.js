@@ -9,6 +9,7 @@ passport.use(new passportJwt.Strategy( {
     issuer: configAuth.token.issuer,
     audience: configAuth.token.audience
 },function(jwt_payload, done) {
+    console.log('IN PASSPORT-JWT!!!');
     User.findOne({'facebook.id': jwt_payload.sub}, function(err, user) {
         if (err) {
             return done(err, false);
