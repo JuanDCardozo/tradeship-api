@@ -12,7 +12,9 @@ module.exports = function(app, passport) {
     }),
     function(req, res) {
       console.log(req.user)
-      res.send(req.user);
+      res.jsonp({
+        data: req.user
+      });
     }
   );
 
