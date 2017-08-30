@@ -4,64 +4,24 @@
 // it is not it creates a new user and returns a token.
 // ==================================================================
 
-const jwt = require('jsonwebtoken');
-const configAuth = require('../../config/passport/auth-passport');
-
-module.exports = function(app, passport) {
-  // ==================================================================
-  // HELPER FUNCTIONS =================================================
-  // ==================================================================
-
-  // Generate an Access Token for the given User ID
-  function generateAccessToken(userId) {
-    const expiresIn = '1 hour';
-    const audience = configAuth.token.audience;
-    const issuer = configAuth.token.issuer;
-    const secret = configAuth.token.secret;
-
-    const token = jwt.sign({}, secret, {
-      expiresIn: expiresIn,
-      audience: audience,
-      issuer: issuer,
-      subject: userId.toString()
-    });
-
-    return token;
-  }
-
-  // Generate the Token for the user auth then redirect to client
-  function generateUserTokenRedirect(req, res) {
-    const accessToken = generateAccessToken(req.user._id);
-    console.log('GenerateUserTokenRedirect(), with token: ' + accessToken);
-    res.redirect('http://localhost:4200/home/?accessToken=' + accessToken);
-
-  }
-
-  // Generate the Token for the user auth then send to client
-  function generateUserTokenSend(req, res) {
-    const accessToken = generateAccessToken(req.user._id);
-    console.log('GenerateUserTokenSend(), with token: ' + accessToken);
-    res.send('http://localhost:4200/home/?accessToken=' + accessToken);
-
-  }
+module.exports = function(app, passport, jwtToken) {
 
   // ==================================================================
   // LOCAL SIGNUP-LOGIN  ==============================================
   // ==================================================================
 
-
   // process the login form
   app.post('/login', passport.authenticate('local-login', {
       session: false
     }),
-    generateUserTokenSend);
+    jwtToken.generateUserTokenSend);
 
   // process the signup form
   app.post('/signup',
     passport.authenticate('local-signup', {
       session: false
     }),
-    generateUserTokenSend);
+    jwtToken.generateUserTokenSend);
 
   // =================================================================
   // FACEBOOK LOGIN ==================================================
@@ -78,7 +38,7 @@ module.exports = function(app, passport) {
     passport.authenticate('facebook', {
       session: false
     }),
-    generateUserTokenRedirect);
+    jwtToken.generateUserTokenRedirect);
 
 
   // ================================================================
@@ -96,5 +56,5 @@ module.exports = function(app, passport) {
     passport.authenticate('google', {
       session: false
     }),
-    generateUserTokenRedirect);
+    jwtToken.generateUserTokenRedirect);
 }

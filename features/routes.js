@@ -20,8 +20,10 @@ module.exports = function(app, passport) {
   // FEATURE ROUTES ===================================================
   // ==================================================================
 
+  var jwtToken = require('./helpers/jwtToken');
+
   // User features: Authenticate, add, unlink and edit account
-  require('./user/user-routes')(app, passport);
+  require('./user/user-routes')(app, passport, jwtToken);
 
   // Product features: Connect aws S3 store images and make product post
   require('./product/product-routes')(app);

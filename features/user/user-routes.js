@@ -1,14 +1,14 @@
-module.exports = function(app, passport) {
+module.exports = function(app, passport, jwtToken) {
 
   //
-  require('./user-auth')(app, passport);
+  require('./user-auth')(app, passport, jwtToken);
 
   //
-  require('./user-addAccounts')(app, passport);
+  require('./user-addAccounts')(app, passport, jwtToken);
 
   //
-  require('./user-unlinkAccounts')(app, passport);
+  require('./user-unlinkAccounts')(app, passport, jwtToken);
 
   //
-  require('./user-data')(app, passport);
+  require('./user-data')(app, passport, jwtToken);
 }
